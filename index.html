@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+      body {
+        text-align: center;
+      }
+    </style>
+
+  </head>
+  <body>
+    <h1>ZOOM MEETING LINKS</h1>
+    <input id="zoomLink_input" type="url" placeholder="Paste your zoom link here" required>
+    <input id="zoomLink_name" type="text" placeholder="Enter course name" required>
+    <button type="button" onclick="addLink()">Add</button>
+    <hr>
+    <!-- Display links -->
+    <div id="display">
+    </div>
+
+    <script type="text/javascript">
+      console.log(localStorage.length);
+      if (localStorage.length == 0){
+        var links_array = [];
+      }
+      else{
+        var array = localStorage.array;
+        var links_array = JSON.parse(array);
+      }
+
+      // adding link and name to the website
+      function addLink(){
+        var link = document.getElementById("zoomLink_input").value;
+        var name = document.getElementById("zoomLink_name").value;
+        // add the info into an object
+        if (link != "" && name != "") {
+          var link_obj =
+          {
+            "Name": '',
+            "Link": ''
+          };
+
+          link_obj["Name"] = name;
+          link_obj["Link"] = link;
+
+          // push obj into an array
+          links_array.push(link_obj);
+
+          // adds array to local storage
+          localStorage.array = JSON.stringify(links_array);
+        }
+        else {
+          alert("Please enter both Zoom Link and Course Name")
+        }
+      }
+
+
+
+      function displayLink() {
+        var link = document.getElementById("zoomLink_input").value;
+        var name = document.getElementById("zoomLink_name").value;
+        var textNode = document.createTextNode(name);
+        var a = document.createElement("a");
+        a.setAttribute("href", link);
+        a.appendChild(textNode);
+        var display = document.getElementById("display").appendChild(a);
+      }
+
+    </script>
+  </body>
+</html>
