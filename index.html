@@ -33,8 +33,8 @@
   </head>
   <body>
     <h1>ZOOM MEETING LINKS</h1>
-    <input id="zoomLink_input" type="url" placeholder="Paste your zoom link here" required>
-    <input id="zoomLink_name" type="text" placeholder="Enter course name" required>
+    <input id="zoomLink_input" type="url" placeholder="Paste Your Link Here" required>
+    <input id="zoomLink_name" type="text" placeholder="Enter Course Name" required>
     <button type="button" onclick="addLink()">Add</button>
     <hr>
     <!-- Display links -->
@@ -42,7 +42,8 @@
 
     </ul>
     <hr>
-    <button type="button" name="button" onclick="clearLinks()">Clear Links</button>
+    <input id = "name_remove" type="text" placeholder="Enter Course Name">
+    <button type="button" onclick="removeLink()">Remove Link</button>
 
     <script type="text/javascript">
       if (localStorage.length == 0){
@@ -103,6 +104,8 @@
           var link = links_array[i].Link;
 
           var textNode = document.createTextNode(name);
+          var textNode_remove = document.createTextNode("Remove Link");
+
           var div = document.createElement("div");
           div.setAttribute("class", "grp");
           var li = document.createElement("li");
@@ -116,10 +119,23 @@
       }
 
 
-      function clearLinks() {
-        if(prompt("Are you sure? Type yes to continue.") == "yes") {
-          window.localStorage.clear();
-          location.reload();
+      function removeLink() {
+        var found = false;
+        var remove_name = document.getElementById("name_remove").value;
+        for (var i = 0; i < links_array.length; i++) {
+          var name = links_array[i].Name;
+          if(name == remove_name) {
+            found = true;
+            if(prompt("Are you sure? Type yes to continue.") == "yes") {
+              console.log(i);
+              links_array.splice(i, 1);
+              localStorage.array = JSON.stringify(links_array);
+              location.reload();
+            }
+          }
+        }
+        if (found != true){
+          alert("Name cannot be found.")
         }
       }
 
