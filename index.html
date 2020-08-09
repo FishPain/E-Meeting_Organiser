@@ -7,8 +7,29 @@
       body {
         text-align: center;
       }
-    </style>
+      ul {
+        padding: 0px;
+        display: inline-block;
+      }
+      li {
+        list-style-type: none;
+        margin: 10px;
+      }
+      li a {
+        color: black;
+      }
+      li a:hover {
+        color:blue;
+      }
 
+      .grp {
+        border-style: solid;
+        padding: 10px;
+        display: block;
+        width: 400px;
+        margin-top: 5px;
+      }
+    </style>
   </head>
   <body>
     <h1>ZOOM MEETING LINKS</h1>
@@ -17,11 +38,13 @@
     <button type="button" onclick="addLink()">Add</button>
     <hr>
     <!-- Display links -->
-    <div id="display">
-    </div>
+    <ul id="display">
+
+    </ul>
+    <hr>
+    <button type="button" name="button" onclick="clearLinks()">Clear Links</button>
 
     <script type="text/javascript">
-      console.log(localStorage.length);
       if (localStorage.length == 0){
         var links_array = [];
       }
@@ -29,6 +52,7 @@
         var array = localStorage.array;
         var links_array = JSON.parse(array);
       }
+
 
       // adding link and name to the website
       function addLink(){
@@ -54,20 +78,38 @@
         else {
           alert("Please enter both Zoom Link and Course Name")
         }
+        location.reload();
       }
-
 
 
       function displayLink() {
-        var link = document.getElementById("zoomLink_input").value;
-        var name = document.getElementById("zoomLink_name").value;
-        var textNode = document.createTextNode(name);
-        var a = document.createElement("a");
-        a.setAttribute("href", link);
-        a.appendChild(textNode);
-        var display = document.getElementById("display").appendChild(a);
+        for (var i = 0; i < links_array.length; i++) {
+          var name = links_array[i].Name;
+          var link = links_array[i].Link;
+
+          var textNode = document.createTextNode(name);
+          var div = document.createElement("div");
+          div.setAttribute("class", "grp");
+          var li = document.createElement("li");
+          var a = document.createElement("a");
+          a.setAttribute("href", link);
+          a.appendChild(textNode);
+          li.appendChild(a);
+          div.appendChild(li);
+          var display = document.getElementById("display").appendChild(div);
+        }
       }
 
+
+      function clearLinks() {
+        if(prompt("Are you sure? Type yes to continue.") == "yes") {
+          window.localStorage.clear();
+          location.reload();
+        }
+      }
+
+
+      displayLink();
     </script>
   </body>
 </html>
