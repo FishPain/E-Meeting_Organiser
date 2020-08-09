@@ -56,24 +56,39 @@
 
       // adding link and name to the website
       function addLink(){
+        var passCheck = true;
         var link = document.getElementById("zoomLink_input").value;
         var name = document.getElementById("zoomLink_name").value;
         // add the info into an object
         if (link != "" && name != "") {
-          var link_obj =
-          {
-            "Name": '',
-            "Link": ''
-          };
+          for (var i = 0; i < links_array.length; i++) {
+            var nameCheck = links_array[i].Name;
+            var linkCheck = links_array[i].Link;
+            if (name == nameCheck){
+              alert("This name already exist!")
+              passCheck = false;
+            }
+            else if (link == linkCheck){
+              alert("This link already exist!")
+              passCheck = false;
+            }
+          }
+          if (passCheck) {
+            var link_obj =
+            {
+              "Name": '',
+              "Link": ''
+            };
 
-          link_obj["Name"] = name;
-          link_obj["Link"] = link;
+            link_obj["Name"] = name;
+            link_obj["Link"] = link;
 
-          // push obj into an array
-          links_array.push(link_obj);
+            // push obj into an array
+            links_array.push(link_obj);
 
-          // adds array to local storage
-          localStorage.array = JSON.stringify(links_array);
+            // adds array to local storage
+            localStorage.array = JSON.stringify(links_array);
+          }
         }
         else {
           alert("Please enter both Zoom Link and Course Name")
