@@ -46,12 +46,11 @@
     <button type="button" onclick="removeLink()">Remove Link</button>
 
     <script type="text/javascript">
-      if (localStorage.length == 0){
+      if (localStorage.getItem("ZoomLinkArray") == null){
         var links_array = [];
       }
       else{
-        var array = localStorage.array;
-        var links_array = JSON.parse(array);
+        var links_array = JSON.parse(localStorage.getItem("ZoomLinkArray"));
       }
 
 
@@ -88,7 +87,7 @@
             links_array.push(link_obj);
 
             // adds array to local storage
-            localStorage.array = JSON.stringify(links_array);
+            localStorage.setItem("ZoomLinkArray",JSON.stringify(links_array));
           }
         }
         else {
@@ -129,7 +128,7 @@
             if(prompt("Are you sure? Type yes to continue.") == "yes") {
               console.log(i);
               links_array.splice(i, 1);
-              localStorage.array = JSON.stringify(links_array);
+              localStorage.setItem("ZoomLinkArray", JSON.stringify(links_array));
               location.reload();
             }
           }
