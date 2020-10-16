@@ -2,7 +2,12 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>Zoom Link</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style media="screen">
       body {
         text-align: center;
@@ -36,16 +41,15 @@
     <input id="zoomLink_input" type="url" placeholder="Paste Your Link Here" required>
     <input id="zoomLink_name" type="text" placeholder="Enter Course Name" required>
     <button type="button" onclick="addLink()">Add</button>
+    <button type="button" onclick="edit()" id="edit">Edit</button>
     <hr>
     <!-- Display links -->
     <ul id="display">
-
     </ul>
     <hr>
-    <input id = "name_remove" type="text" placeholder="Enter Course Name">
-    <button type="button" onclick="removeLink()">Remove Link</button>
 
     <script type="text/javascript">
+    // Check for existing links in local storage
       if (localStorage.getItem("ZoomLinkArray") == null){
         var links_array = [];
       }
@@ -118,25 +122,61 @@
       }
 
 
-      function removeLink() {
-        var found = false;
-        var remove_name = document.getElementById("name_remove").value;
-        for (var i = 0; i < links_array.length; i++) {
-          var name = links_array[i].Name;
-          if(name == remove_name) {
-            found = true;
-            if(prompt("Are you sure? Type yes to continue.") == "yes") {
-              console.log(i);
-              links_array.splice(i, 1);
-              localStorage.setItem("ZoomLinkArray", JSON.stringify(links_array));
-              location.reload();
-            }
+      function edit(){
+        // class containing all the links
+        var grps = document.getElementsByClassName("grp");
+        // Edit the links
+        if (document.getElementById("edit").innerText == "Edit"){
+          // onclick change button text to "save"
+          document.getElementById("edit").innerText = "Save";
+          for(var i = 0; i < grps.length; i++){
+            // change link border to orange
+            grps[i].style.borderColor = "orange";
+            // create a cross beside each link box
+            var span = document.createElement("span");
+            span.setAttribute("ariaHidden", "true");
+            span.innerText = "x"
+            var btn = document.createElement("button");
+            btn.setAttribute("type", "button");
+            btn.setAttribute("class", "close");
+            btn.setAttribute("ariaLabel", "Close");
+            btn.appendChild(span);
+            grps[i].appendChild(btn);
           }
         }
-        if (found != true){
-          alert("Name cannot be found.")
+        // Save the edits
+        else{
+          // onclick change button text to "Edit"
+          document.getElementById("edit").innerText = "Edit";
         }
       }
+      // function edit() {
+      //   var found = false;
+      //   var grps = document.getElementsByClassName("grp");
+      //   // Change text in button
+      //
+      //   // change link border to orange
+      //   for(var i = 0; i < grps.length; i++){
+      //     grps[i].style.borderColor = "orange";
+      //   }
+      //   // create cross beside each links
+      //   // var remove_name = document.getElementById("name_remove").value;
+      //   for (var i = 0; i < links_array.length; i++) {
+      //     var name = links_array[i].Name;
+      //     if(name == remove_name) {
+      //       found = true;
+      //       if(prompt("Are you sure? Type yes to continue.") == "yes") {
+      //         console.log(i);
+      //         links_array.splice(i, 1);
+      //         localStorage.setItem("ZoomLinkArray", JSON.stringify(links_array));
+      //         location.reload();
+      //       }
+      //     }
+      //   }
+      //   if (found != true){
+      //     alert("Name cannot be found.")
+      //   }
+      // }
 
 
       displayLink();
