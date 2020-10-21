@@ -11,6 +11,7 @@
     <style media="screen">
       body {
         text-align: center;
+        user-select: none;
       }
       ul {
         padding: 0px;
@@ -112,10 +113,23 @@
           var div = document.createElement("div");
           div.setAttribute("class", "grp");
           var li = document.createElement("li");
+          // Set href link
           var a = document.createElement("a");
           a.setAttribute("href", link);
           a.appendChild(textNode);
           li.appendChild(a);
+          // Create close button
+          var span = document.createElement("span");
+          span.setAttribute("ariaHidden", "true");
+          span.innerText = "x"
+          var btn = document.createElement("button");
+          btn.setAttribute("type", "button");
+          btn.setAttribute("class", "close");
+          btn.setAttribute("ariaLabel", "Close");
+          btn.appendChild(span);
+          // button hidden by default
+          btn.style.display = "none";
+          li.appendChild(btn);
           div.appendChild(li);
           var display = document.getElementById("display").appendChild(div);
         }
@@ -125,6 +139,7 @@
       function edit(){
         // class containing all the links
         var grps = document.getElementsByClassName("grp");
+        var close = document.getElementsByClassName("close");
         // Edit the links
         if (document.getElementById("edit").innerText == "Edit"){
           // onclick change button text to "save"
@@ -132,22 +147,20 @@
           for(var i = 0; i < grps.length; i++){
             // change link border to orange
             grps[i].style.borderColor = "orange";
-            // create a cross beside each link box
-            var span = document.createElement("span");
-            span.setAttribute("ariaHidden", "true");
-            span.innerText = "x"
-            var btn = document.createElement("button");
-            btn.setAttribute("type", "button");
-            btn.setAttribute("class", "close");
-            btn.setAttribute("ariaLabel", "Close");
-            btn.appendChild(span);
-            grps[i].appendChild(btn);
+            // Display close icon
+            close[i].style.display = "block";
           }
         }
         // Save the edits
         else{
           // onclick change button text to "Edit"
           document.getElementById("edit").innerText = "Edit";
+          for(var i = 0; i < grps.length; i++){
+            // change link border to orange
+            grps[i].style.borderColor = "black";
+            // Display close icon
+            close[i].style.display = "none";
+          }
         }
       }
       // function edit() {
