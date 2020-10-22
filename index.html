@@ -50,6 +50,10 @@
     <hr>
 
     <script type="text/javascript">
+    // class containing all the links
+    var grps = document.getElementsByClassName("grp");
+    var close = document.getElementsByClassName("close");
+
     // Check for existing links in local storage
       if (localStorage.getItem("ZoomLinkArray") == null){
         var links_array = [];
@@ -104,6 +108,7 @@
 
       function displayLink() {
         for (var i = 0; i < links_array.length; i++) {
+          var id = i;
           var name = links_array[i].Name;
           var link = links_array[i].Link;
 
@@ -126,6 +131,8 @@
           btn.setAttribute("type", "button");
           btn.setAttribute("class", "close");
           btn.setAttribute("ariaLabel", "Close");
+          btn.setAttribute("id", id);
+          btn.setAttribute("onclick", "removeLink(this.id)")
           btn.appendChild(span);
           // button hidden by default
           btn.style.display = "none";
@@ -137,9 +144,6 @@
 
 
       function edit(){
-        // class containing all the links
-        var grps = document.getElementsByClassName("grp");
-        var close = document.getElementsByClassName("close");
         // Edit the links
         if (document.getElementById("edit").innerText == "Edit"){
           // onclick change button text to "save"
@@ -163,34 +167,14 @@
           }
         }
       }
-      // function edit() {
-      //   var found = false;
-      //   var grps = document.getElementsByClassName("grp");
-      //   // Change text in button
-      //
-      //   // change link border to orange
-      //   for(var i = 0; i < grps.length; i++){
-      //     grps[i].style.borderColor = "orange";
-      //   }
-      //   // create cross beside each links
-      //   // var remove_name = document.getElementById("name_remove").value;
-      //   for (var i = 0; i < links_array.length; i++) {
-      //     var name = links_array[i].Name;
-      //     if(name == remove_name) {
-      //       found = true;
-      //       if(prompt("Are you sure? Type yes to continue.") == "yes") {
-      //         console.log(i);
-      //         links_array.splice(i, 1);
-      //         localStorage.setItem("ZoomLinkArray", JSON.stringify(links_array));
-      //         location.reload();
-      //       }
-      //     }
-      //   }
-      //   if (found != true){
-      //     alert("Name cannot be found.")
-      //   }
-      // }
 
+
+      function removeLink(idValue){
+        console.log(idValue);
+        links_array.splice(idValue, 1);
+        localStorage.setItem("ZoomLinkArray", JSON.stringify(links_array));
+        location.reload();
+      }
 
       displayLink();
     </script>
