@@ -107,8 +107,8 @@
 
 
       function displayLink() {
+        // delete all link
         for (var i = 0; i < links_array.length; i++) {
-          var id = i;
           var name = links_array[i].Name;
           var link = links_array[i].Link;
 
@@ -121,6 +121,7 @@
           // Set href link
           var a = document.createElement("a");
           a.setAttribute("href", link);
+          a.setAttribute("target", "_blank")
           a.appendChild(textNode);
           li.appendChild(a);
           // Create close button
@@ -131,7 +132,7 @@
           btn.setAttribute("type", "button");
           btn.setAttribute("class", "close");
           btn.setAttribute("ariaLabel", "Close");
-          btn.setAttribute("id", id);
+          btn.setAttribute("id", i);
           btn.setAttribute("onclick", "removeLink(this.id)")
           btn.appendChild(span);
           // button hidden by default
@@ -165,6 +166,7 @@
             // Display close icon
             close[i].style.display = "none";
           }
+          location.reload();
         }
       }
 
@@ -173,7 +175,15 @@
         console.log(idValue);
         links_array.splice(idValue, 1);
         localStorage.setItem("ZoomLinkArray", JSON.stringify(links_array));
-        location.reload();
+        grps[idValue].remove();
+        for (var i = 0; i<grps.length; i++){
+          grps[i]
+        }
+      }
+
+
+      function updateLink(){
+
       }
 
       displayLink();
