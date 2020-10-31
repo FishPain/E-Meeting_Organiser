@@ -1,29 +1,33 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Zoom Link</title>
-    <!-- Third-party libraries -->
-    <link rel="stylesheet" href="/css/app.css">
-    <script src="/js/app.js"></script>
 
-    <!-- Third-party libraries -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  </head>
-  <body>
-    <h1>ZOOM MEETING LINKS</h1>
-    <input id="zoomLink_input" type="url" placeholder="Paste Your Link Here" required>
-    <input id="zoomLink_name" type="text" placeholder="Enter Course Name" required>
-    <button type="button" onclick="addLink()">Add</button>
-    <button type="button" onclick="edit()" id="edit">Edit</button>
-    <hr>
-    <!-- Display links -->
-    <ul id="display">
-    </ul>
-    <hr>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <title>Zoom Link</title>
+  <!-- Third-party libraries -->
+  <link rel="stylesheet" href="/css/app.css">
+  <script defer src="/js/app.js"></script>
+
+  <!-- Third-party libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+    integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+    crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+  <h1>ZOOM MEETING LINKS</h1>
+  <input id="zoomLink_input" type="url" placeholder="Paste Your Link Here" required>
+  <input id="zoomLink_name" type="text" placeholder="Enter Course Name" required>
+  <button type="button" onclick="addLink()">Add</button>
+  <button type="button" id="edit">Edit</button>
+  <hr>
+  <!-- Display links -->
+  <ul id="display">
+  </ul>
+  <hr>
+</body>
+
 </html>
