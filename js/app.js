@@ -8,13 +8,19 @@ if (localStorage.getItem("ZoomLinkArray") == null) {
 
 $(document).ready(displayLink());
 
+// Regex to check if link is valid
+const expression = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
+const regex = new RegExp(expression);
+
 // adding link and name to the website
 const addLink = () => {
     var passCheck = true;
     var link = $("#zoomLink_input").val();
     var name = $("#zoomLink_name").val();
+    $("#unfilledFields").slideUp("fast")
+
     // add the info into an object
-    if (link != "" && name != "") {
+    if (link !== "" && name !== "" && link.match(regex) === true) {
         for (var i = 0; i < links_array.length; i++) {
             var nameCheck = links_array[i].Name;
             var linkCheck = links_array[i].Link;
@@ -45,13 +51,18 @@ const addLink = () => {
         }
     }
     else {
-        alert("Please enter both Zoom Link and Course Name")
+        $("#unfilledFields").slideDown("fast")
+        return
     }
     location.reload();
 }
 
 
 function displayLink() {
+    // Show "Nothing to show here" if there is really nothing to show :/
+    if (links_array.length === 0) {
+        $("#nothingToShow").fadeIn()
+    }
     // delete all link
     for (var i = 0; i < links_array.length; i++) {
         var name = links_array[i].Name;
@@ -60,13 +71,21 @@ function displayLink() {
         var element = `
         <div class="grp">
         <li>
-            <a href="${link}" target="_blank">${link}</a>
-            <button type="button" class="close" arialabel="Close" id="${i}"
-                onclick="removeLink(this.id)" style="display: none;"><span ariahidden="true">x</span>
-            </button>
+            <div class="box">
+                <div class="columns is-vcentered">
+                <div class="column">
+                    <p class="has-text-weight-bold">${name}</p>
+                    <a href="${link}" target="_blank" class="has-text-black"><small>${link}</small></a>
+                </div>
+                <div class="column has-text-right">
+                    <button type="button" class="button close is-small is-danger" arialabel="Close" id="${i}"
+                    onclick="removeLink(this.id)" style="display: none;"><span class="icon is-small"><i class="fas fa-times"></i></span>
+                    </button>
+                </div>
+            </div>
         </li>
         </div>`
-        
+
         $("#display").append(element);
     }
 }
@@ -76,7 +95,16 @@ let editButtonState = false
 $("#edit").click(() => {
     if (editButtonState === false) {
         editButtonState = true
-        $("#edit").text("Save")
+        // Change inner text
+        $("#edit #text").html("Save")
+
+        // Change colour of button
+        $("#edit").addClass("is-dark")
+        $("#edit").removeClass("is-light")
+
+        // Change icon
+        $("#edit #icon").removeClass("fas fa-edit")
+        $("#edit #icon").addClass("fas fa-save")
 
         $(".grp").each(function (i) {
             // change link border to orange
@@ -86,7 +114,16 @@ $("#edit").click(() => {
         });
     } else {
         editButtonState = false
-        $("#edit").text("Edit")
+        // Change inner text
+        $("#edit #text").html("Edit list")
+
+        // Change colour of button
+        $("#edit").addClass("is-light")
+        $("#edit").removeClass("is-dark")
+
+        // Change icon
+        $("#edit #icon").removeClass("fas fa-save")
+        $("#edit #icon").addClass("fas fa-edit")
 
         $(".grp").each(function (i) {
             // change link border to orange
