@@ -1,0 +1,30 @@
+body {
+  text-align: center;
+  user-select: none;
+}
+
+ul {
+  padding: 0px;
+  display: inline-block;
+}
+
+li {
+  list-style-type: none;
+  margin: 10px;
+}
+
+li a {
+  color: black;
+}
+
+li a:hover {
+  color: blue;
+}
+
+.grp {
+  border-style: solid;
+  padding: 10px;
+  display: block;
+  width: 400px;
+  margin-top: 5px;
+}
