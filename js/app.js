@@ -18,9 +18,8 @@ const addLink = () => {
     var link = $("#zoomLink_input").val();
     var name = $("#zoomLink_name").val();
     $("#unfilledFields").slideUp("fast")
-
     // add the info into an object
-    if (link !== "" && name !== "" && link.match(regex) === true) {
+    if (link != "" && name != "" && link.match(regex)) {
         for (var i = 0; i < links_array.length; i++) {
             var nameCheck = links_array[i].Name;
             var linkCheck = links_array[i].Link;
