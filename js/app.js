@@ -18,9 +18,8 @@ const addLink = () => {
     var link = $("#zoomLink_input").val();
     var name = $("#zoomLink_name").val();
     $("#unfilledFields").slideUp("fast")
-
     // add the info into an object
-    if (link !== "" && name !== "" && link.match(regex) === true) {
+    if (link != "" && name != "" && link.match(regex)) {
         for (var i = 0; i < links_array.length; i++) {
             var nameCheck = links_array[i].Name;
             var linkCheck = links_array[i].Link;
@@ -110,7 +109,7 @@ $("#edit").click(() => {
             // change link border to orange
             $(this).css('border-color', "orange");
             // Display close icon
-            $(".close").show();
+            $(".close").fadeIn("fast");
         });
     } else {
         editButtonState = false
@@ -129,7 +128,7 @@ $("#edit").click(() => {
             // change link border to orange
             $(this).css('border-color', "black");
             // Display close icon
-            $(".close").hide();
+            $(".close").fadeOut("fast");
         });
         location.reload();
     }
