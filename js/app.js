@@ -109,7 +109,7 @@ $("#edit").click(() => {
             // change link border to orange
             $(this).css('border-color', "orange");
             // Display close icon
-            $(".close").show();
+            $(".close").fadeIn("fast");
         });
     } else {
         editButtonState = false
@@ -128,7 +128,7 @@ $("#edit").click(() => {
             // change link border to orange
             $(this).css('border-color', "black");
             // Display close icon
-            $(".close").hide();
+            $(".close").fadeOut("fast");
         });
         location.reload();
     }
