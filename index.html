@@ -1,192 +1,107 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
+
+<head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>Zoom Link</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <style media="screen">
-      body {
-        text-align: center;
-        user-select: none;
-      }
-      ul {
-        padding: 0px;
-        display: inline-block;
-      }
-      li {
-        list-style-type: none;
-        margin: 10px;
-      }
-      li a {
-        color: black;
-      }
-      li a:hover {
-        color:blue;
-      }
+    <!-- Third-party libraries -->
+    <link rel="stylesheet" href="/css/app.css">
+    <script defer src="/js/app.js"></script>
 
-      .grp {
-        border-style: solid;
-        padding: 10px;
-        display: block;
-        width: 400px;
-        margin-top: 5px;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>ZOOM MEETING LINKS</h1>
-    <input id="zoomLink_input" type="url" placeholder="Paste Your Link Here" required>
-    <input id="zoomLink_name" type="text" placeholder="Enter Course Name" required>
-    <button type="button" onclick="addLink()">Add</button>
-    <button type="button" onclick="edit()" id="edit">Edit</button>
-    <hr>
-    <!-- Display links -->
-    <ul id="display">
-    </ul>
-    <hr>
+    <!-- Third-party libraries -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js"
+        integrity="sha512-F5QTlBqZlvuBEs9LQPqc1iZv2UMxcVXezbHzomzS6Df4MZMClge/8+gXrKw2fl5ysdk4rWjR0vKS7NNkfymaBQ=="
+        crossorigin="anonymous"></script>
+</head>
 
-    <script type="text/javascript">
-    // class containing all the links
-    var grps = document.getElementsByClassName("grp");
-    var close = document.getElementsByClassName("close");
+<body>
+    <section class="hero is-dark is-medium is-bold">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title is-2">
+                    Zoom Meeting Links
+                </h1>
+                <h2 class="subtitle">
+                    List of your stored links
+                </h2>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <div id="unfilledFields" class="notification is-danger" style="display: none;">
+                <button class="delete" onclick='$("#unfilledFields").slideUp("fast")'></button>
+                Please enter both module name & a valid zoom link.
+            </div>
+            <div class="columns">
+                <div class="column">
+                    <div class="field">
+                        <label class="label">Module name</label>
+                        <div class="control has-icons-left has-icons-right">
+                            <input id="zoomLink_name" class="input" type="text" placeholder="Advanced slacking">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="field">
+                        <label class="label">Zoom link</label>
+                        <div class="control has-icons-left has-icons-right">
+                            <input id="zoomLink_input" class="input" type="url" placeholder="https://hello.zoom.us/...">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-link"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-    // Check for existing links in local storage
-      if (localStorage.getItem("ZoomLinkArray") == null){
-        var links_array = [];
-      }
-      else{
-        var links_array = JSON.parse(localStorage.getItem("ZoomLinkArray"));
-      }
+            <span class="buttons">
+                <button class="button is-success" type="button" onclick="addLink()">
+                    <span class="icon is-small">
+                        <i id="icon" class="fas fa-plus"></i>
+                    </span>
+                    <span id="text">Add link</span>
+                </button>
 
+                <button class="button is-light" type="button" id="edit">
+                    <span class="icon is-small">
+                        <i id="icon" class="fas fa-edit"></i>
+                    </span>
+                    <span id="text">Edit list</span>
+                </button>
+            </span>
 
-      // adding link and name to the website
-      function addLink(){
-        var passCheck = true;
-        var link = document.getElementById("zoomLink_input").value;
-        var name = document.getElementById("zoomLink_name").value;
-        // add the info into an object
-        if (link != "" && name != "") {
-          for (var i = 0; i < links_array.length; i++) {
-            var nameCheck = links_array[i].Name;
-            var linkCheck = links_array[i].Link;
-            if (name == nameCheck){
-              alert("This name already exist!")
-              passCheck = false;
-            }
-            else if (link == linkCheck){
-              alert("This link already exist!")
-              passCheck = false;
-            }
-          }
-          if (passCheck) {
-            var link_obj =
-            {
-              "Name": '',
-              "Link": ''
-            };
+            <hr>
+            <!-- Display links -->
+            <div id="display">
+                <div id="nothingToShow" class="has-text-centered" style="display: none;">
+                    <p class="title is-1 has-text-grey">>_< </p>
+                            <p class="subtitle is-4 has-text-grey-light">Nothing to display here</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-            link_obj["Name"] = name;
-            link_obj["Link"] = link;
+    <footer class="footer">
+        <div class="content has-text-centered">
+            <p>
+                <strong>Zoom Meeting Organiser</strong> by <a href="https://fishpain.net">Tony Yu</a><br>UI design by <a
+                    href="https://github.com/Tokinoharu">Dylan Kok</a>
+            </p>
+            <a href="https://github.com/FishPain/E-Meeting_Organiser"><i class="fab fa-github"></i>&ensp;Fork this
+                project</a>
+        </div>
+    </footer>
 
-            // push obj into an array
-            links_array.push(link_obj);
+</body>
 
-            // adds array to local storage
-            localStorage.setItem("ZoomLinkArray",JSON.stringify(links_array));
-          }
-        }
-        else {
-          alert("Please enter both Zoom Link and Course Name")
-        }
-        location.reload();
-      }
-
-
-      function displayLink() {
-        // delete all link
-        for (var i = 0; i < links_array.length; i++) {
-          var name = links_array[i].Name;
-          var link = links_array[i].Link;
-
-          var textNode = document.createTextNode(name);
-          var textNode_remove = document.createTextNode("Remove Link");
-
-          var div = document.createElement("div");
-          div.setAttribute("class", "grp");
-          var li = document.createElement("li");
-          // Set href link
-          var a = document.createElement("a");
-          a.setAttribute("href", link);
-          a.setAttribute("target", "_blank")
-          a.appendChild(textNode);
-          li.appendChild(a);
-          // Create close button
-          var span = document.createElement("span");
-          span.setAttribute("ariaHidden", "true");
-          span.innerText = "x"
-          var btn = document.createElement("button");
-          btn.setAttribute("type", "button");
-          btn.setAttribute("class", "close");
-          btn.setAttribute("ariaLabel", "Close");
-          btn.setAttribute("id", i);
-          btn.setAttribute("onclick", "removeLink(this.id)")
-          btn.appendChild(span);
-          // button hidden by default
-          btn.style.display = "none";
-          li.appendChild(btn);
-          div.appendChild(li);
-          var display = document.getElementById("display").appendChild(div);
-        }
-      }
-
-
-      function edit(){
-        // Edit the links
-        if (document.getElementById("edit").innerText == "Edit"){
-          // onclick change button text to "save"
-          document.getElementById("edit").innerText = "Save";
-          for(var i = 0; i < grps.length; i++){
-            // change link border to orange
-            grps[i].style.borderColor = "orange";
-            // Display close icon
-            close[i].style.display = "block";
-          }
-        }
-        // Save the edits
-        else{
-          // onclick change button text to "Edit"
-          document.getElementById("edit").innerText = "Edit";
-          for(var i = 0; i < grps.length; i++){
-            // change link border to orange
-            grps[i].style.borderColor = "black";
-            // Display close icon
-            close[i].style.display = "none";
-          }
-          location.reload();
-        }
-      }
-
-
-      function removeLink(idValue){
-        console.log(idValue);
-        links_array.splice(idValue, 1);
-        localStorage.setItem("ZoomLinkArray", JSON.stringify(links_array));
-        grps[idValue].remove();
-        for (var i = 0; i<grps.length; i++){
-          grps[i]
-        }
-      }
-
-
-      function updateLink(){
-
-      }
-
-      displayLink();
-    </script>
-  </body>
 </html>

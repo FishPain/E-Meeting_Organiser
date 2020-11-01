@@ -1,0 +1,13 @@
+ul {
+  padding: 0px;
+  display: inline-block;
+}
+
+li {
+  list-style-type: none;
+  margin: 10px;
+}
+
+#nothingToShow {
+  margin: 4rem 0
+}
